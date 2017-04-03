@@ -19,14 +19,20 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/dragula/dist/dragula.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/dragula/dist/dragula.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
-      }
+      },
+      "packages": [
+        "node_modules/ng2-dragula"
+      ]
     }
   ],
   "e2e": {

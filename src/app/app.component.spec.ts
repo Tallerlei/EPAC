@@ -1,5 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
-
+// import { browser, element, by, protractor } from 'protractor';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -27,6 +27,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to CAPE');
+    const app = fixture.debugElement.componentInstance;
+    expect(compiled.querySelector('h1').textContent).toContain(app.title);
   }));
 });

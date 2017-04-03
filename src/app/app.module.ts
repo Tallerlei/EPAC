@@ -3,7 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+// CAPE Components and Services
 import { AppComponent } from './app.component';
+import { GetXmlService } from './get-xml.service';
+
+// 3rd Party
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -12,9 +17,12 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    DragulaModule
   ],
-  providers: [],
+  providers: [
+    GetXmlService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
