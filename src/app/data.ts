@@ -1,11 +1,7 @@
-export interface Data {
-  'nodes': Node[],
-}
-
 export interface Node {
   'id': string,
   'label': string,
-  'nodeType': string,
+  'type': string,
   'expandedIcon': string,
   'collapsedIcon': string,
   'parent'?: Node,

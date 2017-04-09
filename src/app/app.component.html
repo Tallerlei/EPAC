@@ -2,25 +2,25 @@
   <h1>
   {{title}}
   </h1>
-  <!-- <div *ngIf="jsonObject.package">
-    XML DOM loaded:
-    <div *ngFor="let level of jsonObject.package.level">
-      <h1>Level {{level.id}}</h1>
-      <div *ngFor="let unit of level.units">
-        <h2>Unit {{unit.id}}</h2>
-        <div *ngFor="let activity of unit.activities">
-          <h3>Activity {{activity.id}}</h3>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="" *ngIf="data.nodes">
-    <p-tree [value]="data.nodes" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode" draggableNodes="true" droppableNodes="true">
+  <div *ngIf="this.dataStoreService.data.length >= 1">
+    <p-tree [value]="this.dataStoreService.data" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode" draggableNodes="true" droppableNodes="true">
+      <ng-template let-node pTemplate="level" droppableScope="level">
+        <span data-type="level">{{node.label}} X
+        </span>
+      </ng-template>
+      <ng-template let-node pTemplate="unit" draggableScope="level" droppableScope="unit">
+        <span data-type="level">{{node.label}} Y
+        </span>
+      </ng-template>
+      <ng-template let-node pTemplate="activity" draggableScope="unit">
+        <span data-type="level">{{node.label}} Z
+        </span>
+      </ng-template>
     </p-tree>
     <p-contextMenu #cm [model]="items"></p-contextMenu>
   </div>
 
-  <button type="button" name="loadButton" id="loadButton" (click)="loadXmlStructure()">Load</button>
+  <button pButton type="button" label="Load" name="loadButton" id="loadButton" (click)="loadData()"></button>
   <br /><br />
   <p-messages [value]="msgs"></p-messages>
 </div>
