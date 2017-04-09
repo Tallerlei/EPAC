@@ -18,6 +18,7 @@ import { ContextMenuModule, MenuItem } from 'primeng/primeng';
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { MessagesModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/primeng';
+import {InputTextModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ButtonModule } from 'primeng/primeng';
     ContextMenuModule,
     MessagesModule,
     ButtonModule,
-    DragDropModule
+    DragDropModule,
+    InputTextModule
   ],
   providers: [
     GetXmlService,

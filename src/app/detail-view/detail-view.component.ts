@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { Node } from '../data';
 @Component({
-  selector: 'app-detail-view',
+  selector: 'detail-view',
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.css']
 })
-export class DetailViewComponent implements OnInit {
-
+export class DetailViewComponent {
+  @Input() node: Node;
+  editMode: boolean = false;
   constructor() { }
 
-  ngOnInit() {
-  }
 
 }

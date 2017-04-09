@@ -8,7 +8,7 @@ export class DataStoreService {
   // whether or not user should be able to move level
   allowLevelMovement: boolean = false;
   // data store
-  data: Node[] = [];
+  data = [{ 'label': '', 'type': 'database', 'id': '', 'children': [], 'expandedIcon': 'fa-database', 'collapsedIcon': 'fa-database' }];
   // xml document
   xmlDoc: Document = null;
   constructor(
@@ -26,20 +26,23 @@ export class DataStoreService {
       res => {
         if (this.xmlDoc.getElementsByTagName('package')) {
           let packageReference = this.xmlDoc.getElementsByTagName('package');
-          this.data = [];
+          this.data[0].children = [];
           let levelTags = packageReference[0].getElementsByTagName('level');
           for (let i = 0; i < levelTags.length; i++) {
-            let nodes = { 'label': 'level', 'type': 'level', 'id': levelTags[i].id, 'children': [], 'expandedIcon': 'fa-folder-open', 'collapsedIcon': 'fa-folder', 'draggable': false, 'droppableScope': 'level' };
+            let nodes = { 'label': 'level', 'type': 'level', 'id': levelTags[i].id, 'children': [], 'expandedIcon': 'fa-folder-open', 'collapsedIcon': 'fa-folder', 'draggable': false };
             let unitTags = packageReference[0].getElementsByTagName('level')[i].getElementsByTagName('unit');
             for (let j = 0; j < unitTags.length; j++) {
-              let unit = { 'label': 'unit', 'type': 'unit', 'id': unitTags[j].id, 'children': [], 'expandedIcon': 'fa-folder-open', 'collapsedIcon': 'fa-folder', 'droppableScope': 'unit', 'draggableScope': 'level' };
+              let unit = { 'label': 'unit', 'type': 'unit', 'id': unitTags[j].id, 'children': [], 'expandedIcon': 'fa-folder-open-o', 'collapsedIcon': 'fa-folder-o' };
               let activityTags = packageReference[0].getElementsByTagName('level')[i].getElementsByTagName('unit')[j].getElementsByTagName('activity');
               for (let k = 0; k < activityTags.length; k++) {
-                unit.children.push({ 'label': 'activity', 'type': 'activity', 'id': activityTags[k].id, 'expandedIcon': 'fa-folder-open', 'collapsedIcon': 'fa-folder', 'draggableScope': 'unit' });
+                unit.children.push({ 'label': 'activity', 'type': 'activity', 'id': activityTags[k].id, 'icon': 'fa-file-code-o' });
               }
               nodes.children.push(unit);
             }
-            this.data.push(nodes);
+            this.data[0].children.push(nodes);
+            let id = url.split('/')[1];
+            this.data[0].id = id;
+            this.data[0].label = id;
           }
         }
       }

@@ -2,25 +2,31 @@
   <h1>
   {{title}}
   </h1>
-  <div *ngIf="this.dataStoreService.data.length >= 1">
+  <div *ngIf="this.dataStoreService.data[0].label">
     <p-tree [value]="this.dataStoreService.data" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode" draggableNodes="true" droppableNodes="true">
+      <ng-template let-node pTemplate="database">
+        <span data-type="database">{{node.label}}
+        </span>
+      </ng-template>
       <ng-template let-node pTemplate="level" droppableScope="level">
-        <span data-type="level">{{node.label}} X
+        <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
       <ng-template let-node pTemplate="unit" draggableScope="level" droppableScope="unit">
-        <span data-type="level">{{node.label}} Y
+        <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
       <ng-template let-node pTemplate="activity" draggableScope="unit">
-        <span data-type="level">{{node.label}} Z
+        <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
     </p-tree>
     <p-contextMenu #cm [model]="items"></p-contextMenu>
   </div>
-
+  <br>
   <button pButton type="button" label="Load" name="loadButton" id="loadButton" (click)="loadData()"></button>
-  <br /><br />
+  <hr>
+  <detail-view *ngIf="editableNode" [node]="editableNode"></detail-view>
+  <br><br>
   <p-messages [value]="msgs"></p-messages>
 </div>

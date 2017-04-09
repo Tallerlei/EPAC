@@ -1,3 +1,10 @@
-<p>
-  detail-view works!
-</p>
+<div>
+  <h3>ID</h3>
+  <input disabled="true" type="text" pInputText [(ngModel)]="node.id" />
+  <h3>Type</h3>
+  <input disabled="true" type="text" pInputText [(ngModel)]="node.type" />
+  <h3>Label</h3>
+  <input [disabled]="!editable" type="text" pInputText [(ngModel)]="node.label" />
+  <br><br>
+  <button pButton type="button" label="Edit" (click)="editable = !editable"></button>
+</div>

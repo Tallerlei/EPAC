@@ -19,6 +19,7 @@ export class AppComponent {
     command: (event) => this.showDetails(this.selectedNode)
   }];
   msgs;
+  editableNode: Node;
   selectedNode: Node;
   controlActive: boolean = false;
   constructor(
@@ -27,8 +28,6 @@ export class AppComponent {
   ) {
 
   }
-
-
 
   // Window EventListener
   // For control key
@@ -50,23 +49,37 @@ export class AppComponent {
     if (!this.selectedNode) {
       return;
     }
-    if(event.key === 'ArrowUp') {
+
+    if (event.key === 'ArrowUp') {
       direction = -1;
-    } else if (event.key === 'ArrowDown'){
+    } else if (event.key === 'ArrowDown') {
       direction = 1;
+    } else if (event.key === 'ArrowRight' && typeof this.selectedNode.children !== 'undefined') {
+      this.selectedNode = this.selectedNode.children[0];
+      return;
+    } else if (event.key === 'ArrowLeft' && typeof this.selectedNode.parent !== 'undefined') {
+      this.selectedNode = this.selectedNode.parent;
+      return;
     } else {
       return;
     }
     if (this.controlActive === true) {
       this.utilityService.moveItem(this.selectedNode, direction);
     } else {
-      this.selectedNode = this.utilityService.selectNode(this.selectedNode.parent, this.selectedNode, direction);
+      this.selectedNode = this.utilityService.selectNode(this.selectedNode, direction);
     }
   }
 
-
+  onDoubleClick(event) {
+    this.editableNode = this.selectedNode;
+  }
 
   loadData() {
+    if (this.dataStoreService.data[0].id !== '') {
+      this.msgs = [];
+      this.msgs.push({ severity: 'error', summary: 'Data already loaded!' });
+      return;
+    }
     this.dataStoreService.loadXmlStructure(this.dataUrl);
   }
 

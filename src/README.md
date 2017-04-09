@@ -3,8 +3,18 @@ The application is supposed to load a xml file from a server when the user pushe
 The xml file contains structural information that shall be displayed on screen.
 
 # Third-party-modules
-I included Primeng + font-awesome for multiple reasons e.g. configurable drag'n'drop, messages and context menu. It is very handy and can be configured and extended to your needs.
+I included PrimeNG + font-awesome for multiple reasons e.g. configurable drag'n'drop, messages and context menu. It is very handy and can be configured and extended to your needs.
 Furthermore it comes with some styling I use to implement a good look and feel.
+
+# Selecting and moving items
+User can move between items using arrow keys. Arrow-left selects parent node while arrow-right goes down to first child node.
+When holding control key while using arrow keys items can be moved.
+
+# Showing ID
+When right-clicking a node a context menu opens up and gives user the option to show ID of current node.
+
+# Detail-view and editing node
+With a double-click on a node it can be opened in detail-view. In there is a button which enables editing editable parts (e.g. label)
 
 # Requirements
 1. Single page application - CHECK
