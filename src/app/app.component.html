@@ -2,19 +2,25 @@
   <h1>
   {{title}}
   </h1>
-  <div *ngIf="jsonObject.package">
+  <!-- <div *ngIf="jsonObject.package">
     XML DOM loaded:
     <div *ngFor="let level of jsonObject.package.level">
       <h1>Level {{level.id}}</h1>
-      <div *ngFor="let unit of level.units" [dragula]='level-bag' [dragulaOptions]="options">
+      <div *ngFor="let unit of level.units">
         <h2>Unit {{unit.id}}</h2>
         <div *ngFor="let activity of unit.activities">
           <h3>Activity {{activity.id}}</h3>
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="" *ngIf="data.nodes">
+    <p-tree [value]="data.nodes" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode" draggableNodes="true" droppableNodes="true">
+    </p-tree>
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
   </div>
 
   <button type="button" name="loadButton" id="loadButton" (click)="loadXmlStructure()">Load</button>
-  <br /><br /> {{jsonObject | json}}
+  <br /><br />
+  <p-messages [value]="msgs"></p-messages>
 </div>

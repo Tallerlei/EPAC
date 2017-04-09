@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { GetXmlService } from './shared/get-xml.service';
+import { GetXmlService } from './get-xml.service';
 
 describe('GetXmlService', () => {
   beforeEach(() => {
