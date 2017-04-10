@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+
+// Interface
 import { Node } from '../data';
 
+// Serivices
 import { GetXmlService } from './get-xml.service';
 
 @Injectable()
@@ -8,7 +11,7 @@ export class DataStoreService {
   // whether or not user should be able to move level
   allowLevelMovement: boolean = false;
   // data store
-  data = [{ 'label': '', 'type': 'database', 'id': '', 'children': [], 'expandedIcon': 'fa-database', 'collapsedIcon': 'fa-database' }];
+  data = [{ 'label': '', 'type': 'database', 'id': '', 'children': [], 'expandedIcon': 'fa-database', 'collapsedIcon': 'fa-database', 'draggable': false }];
   // xml document
   xmlDoc: Document = null;
   constructor(

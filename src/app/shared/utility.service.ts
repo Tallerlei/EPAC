@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
+
+// Interface
 import { Node } from '../data';
+
+// Services
 import { DataStoreService } from './data-store.service';
+
 @Injectable()
 export class UtilityService {
 
@@ -8,121 +13,78 @@ export class UtilityService {
     private dataStoreService: DataStoreService
   ) { }
 
-  selectNode(node, direction: number) {
-    if (node.type === 'database' && direction === -1) {
+  /**
+   * Changes selectedNode
+   * @param  {Node} node        according to Interface
+   * @param  {number} direction -1 equals previous array item, 1 next array item
+   * @return {Node}             returns new selectedNode
+   */
+  selectNode(node: Node, direction: number) {
+    // edge case for root element
+    if (typeof node.parent === 'undefined') {
       return node;
-    } else if (node.type === 'database') {
-      return node.children[0];
     }
     let parent = node.parent;
     let position = parent.children.indexOf(node);
     let nextNode = parent.children[position + direction];
+    // next node does not exist e.g. node is at beginning or end of array
     if (typeof nextNode === 'undefined') {
-      if(node.parent.type === 'database'){
-        return node.parent;
-      }
-
-      // TODO: upwards loop
-      return this.selectNode(node.parent, direction);
+      return node;
     } else {
       return nextNode;
     }
   }
-  getNodeNextToParent(node, direction: number) {
-    if (typeof node.parent === 'undefined') {
-      console.log("node has no parent");
-    }
-  }
-  moveItem(node, direction: number) {
+
+  /**
+   * move selected Node in model arround
+   * @param  {Node} node        node which shall be moved
+   * @param  {number} direction -1 equals previous array item, 1 next array item
+   * @return {void}
+   */
+  moveItem(node: Node, direction: number) {
     let array;
-    if (node.type === 'database') {
+    // Database shall not be moveable
+    // Level movement is configurable in dataStoreService. Should get the config data from an extra file someday
+    if (node.type === 'database' || node.type === 'level' && this.dataStoreService.allowLevelMovement === false) {
       return;
-    } else if (node.type === 'level'){
-      if (this.dataStoreService.allowLevelMovement === true) {
-        array = this.dataStoreService.data;
-      } else {
-        return;
-      }
     } else {
       array = node.parent.children;
     }
     let from = array.indexOf(node);
     let to = from + direction;
+    // invalid target
     if (to === -1) {
       return;
     }
+    // the actual moving happens here
     array.splice(to, 0, array.splice(from, 1)[0]);
   }
 
-  moveItemToOtherArray(array, node, direction) {
-    if (direction === 'up') {
-      array.push(node);
-    } else {
-      array.unshift(node)
+  /**
+   * inserts node copy into given array
+   * @param  {Node[]} array Where to insert the node
+   * @param  {Node}   node  copiedNode
+   * @return {void}
+   */
+  insertNodeInArray(array: Node[], node: Node) {
+    // create a copy instead of reference
+    let copyNode = Object.create(node);
+    array.push(copyNode);
+  }
+
+  /**
+   * removes specified node from data model and returns it
+   *
+   * @param  {Node[]} array node array where item shall be removed
+   * @param  {Node}   node  specified node
+   * @return {void}
+   */
+  cutNodeFromArray(array, node: Node) {
+    let index = array.indexOf(node);
+    if (index > -1) {
+      return array.splice(index, 1);
     }
   }
 
-  // moveUp(node: Node) {
-  //   let tempNode: Node;
-  //   let position: number;
-  //   let parentPosition: number;
-  //   let parent = node.parent;
-  //   if (node.type === 'unit') {
-  //     position = parent.children.indexOf(node);
-  //     parentPosition = this.dataStoreService.data.indexOf(parent)
-  //     if (position === 0 && parentPosition <= 0) {
-  //       return;
-  //     } else if (position === 0) {
-  //       tempNode = parent.children[position];
-  //       parent.children.splice(position, 1);
-  //       this.moveItemToOtherArray(this.dataStoreService.data[parentPosition - 1].children, tempNode, 'up');
-  //     } else {
-  //       this.moveItemWithinArray(parent.children, position, position - 1);
-  //     }
-  //   } else if (node.type === 'activity') {
-  //     position = parent.children.indexOf(node);
-  //     parentPosition = parent.parent.children.indexOf(parent);
-  //     if (position === 0 && parentPosition <= 0) {
-  //       return;
-  //     } else if (position === 0) {
-  //       tempNode = parent.children[position];
-  //       parent.children.splice(position, 1);
-  //       this.moveItemToOtherArray(parent.parent.children[parentPosition - 1].children, tempNode, 'up');
-  //     } else {
-  //       this.moveItemWithinArray(parent.children, position, position - 1);
-  //     }
-  //   }
-  // }
-  // moveDown(node: Node) {
-  //   let tempNode: Node;
-  //   let position: number;
-  //   let parentPosition: number;
-  //   let parent = node.parent;
-  //   if (node.type === 'unit') {
-  //     position = parent.children.indexOf(node);
-  //     parentPosition = this.dataStoreService.data.indexOf(parent)
-  //     if (position + 1 === parent.children.length && parentPosition + 1 === this.dataStoreService.data.length) {
-  //       return;
-  //     } else if (position + 1 === parent.children.length) {
-  //       tempNode = parent.children[position];
-  //       parent.children.splice(position, 1);
-  //       this.moveItemToOtherArray(this.dataStoreService.data[parentPosition + 1].children, tempNode, 'down');
-  //     } else {
-  //       this.moveItemWithinArray(parent.children, position, position + 1);
-  //     }
-  //   } else if (node.type === 'activity') {
-  //     position = parent.children.indexOf(node);
-  //     parentPosition = parent.parent.children.indexOf(parent);
-  //     if (position + 1 === parent.children.length && parentPosition + 1 === this.dataStoreService.data.length) {
-  //       return;
-  //     } else if (position + 1 === parent.children.length) {
-  //       tempNode = parent.children[position];
-  //       parent.children.splice(position, 1);
-  //       this.moveItemToOtherArray(parent.parent.children[parentPosition + 1].children, tempNode, 'down');
-  //     } else {
-  //       this.moveItemWithinArray(parent.children, position, position + 1);
-  //     }
-  //   }
-  // }
 
 }
