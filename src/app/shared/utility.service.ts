@@ -45,7 +45,7 @@ export class UtilityService {
     let array;
     // Database shall not be moveable
     // Level movement is configurable in dataStoreService. Should get the config data from an extra file someday
-    if (node.type === 'database' || node.type === 'level' && this.dataStoreService.allowLevelMovement === false) {
+    if (typeof node.parent === 'undefined' || node.type === 'database' || node.type === 'level' && this.dataStoreService.allowLevelMovement === false) {
       return;
     } else {
       array = node.parent.children;
@@ -68,8 +68,8 @@ export class UtilityService {
    */
   insertNodeInArray(array: Node[], node: Node) {
     // create a copy instead of reference
-    let copyNode = Object.create(node);
-    array.push(copyNode);
+    let newNode = this.deepCloneNode(node);
+    array.push(newNode);
   }
 
   /**
@@ -82,9 +82,50 @@ export class UtilityService {
   cutNodeFromArray(array, node: Node) {
     let index = array.indexOf(node);
     if (index > -1) {
-      return array.splice(index, 1);
+      return array.splice(index, 1)[0];
     }
   }
 
+  /**
+   * deep clones an object removing circular references
+   * this is a function from stackoverflow user Fabio Poloni which worked out for this case.
+   * It copies all properties without allowing references to be left over.
+   *
+   * @param  {Object} node could be any kind of object
+   * @return {Object}      clean copy of object, no reference any longer
+   */
+  deepCloneNode(node) {
+    const gdcc = "__getDeepCircularCopy__";
+    if (node !== Object(node)) {
+      return node; // primitive value
+    }
 
+    var set = gdcc in node,
+      cache = node[gdcc],
+      result;
+    if (set && typeof cache == "function") {
+      return cache();
+    }
+    // else
+    node[gdcc] = function() { return result; }; // overwrite
+    if (node instanceof Array) {
+      result = [];
+      for (var i = 0; i < node.length; i++) {
+        result[i] = this.deepCloneNode(node[i]);
+      }
+    } else {
+      result = {};
+      for (var prop in node)
+        if (prop != gdcc)
+          result[prop] = this.deepCloneNode(node[prop]);
+        else if (set)
+          result[prop] = this.deepCloneNode(cache);
+    }
+    if (set) {
+      node[gdcc] = cache; // reset
+    } else {
+      delete node[gdcc]; // unset again
+    }
+    return result;
+  }
 }

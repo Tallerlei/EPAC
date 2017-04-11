@@ -10,6 +10,13 @@ Furthermore it comes with some styling I use to implement a good look and feel.
 User can move between items using arrow keys. Arrow-left selects parent node while arrow-right goes down to first child node.
 When holding control key while using arrow keys items can be moved.
 
+# Copy/Cut/Paste
+For power users there are common key combinations to copy, cut and paste items.
+Ctrl + x => cut
+Ctrl + c => copy
+Ctrl + v => paste
+At the moment items with same IDs are allowed.
+
 # Showing ID
 When right-clicking a node a context menu opens up and gives user the option to show ID of current node.
 

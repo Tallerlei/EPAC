@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // Interface
 import { Node } from '../data';
 
-// Serivices
+// Services
 import { GetXmlService } from './get-xml.service';
 
 @Injectable()
@@ -17,7 +17,13 @@ export class DataStoreService {
   constructor(
     private getXmlService: GetXmlService
   ) { }
-  loadXmlStructure(url) {
+
+  /**
+   * Takes xml document, converts it into a DOM structure and then to a json object
+   * @param  {string} url url (relative to src folder or websource)
+   * @return {void}       data is stored in this service
+   */
+  loadXmlStructure(url: string) {
     this.getXmlService.getXmlFile(url)
       .then(
       res => {
@@ -28,18 +34,27 @@ export class DataStoreService {
       .then(
       res => {
         if (this.xmlDoc.getElementsByTagName('package')) {
-          let packageReference = this.xmlDoc.getElementsByTagName('package');
           this.data[0].children = [];
+          let packageReference = this.xmlDoc.getElementsByTagName('package');
           let levelTags = packageReference[0].getElementsByTagName('level');
+
+          // loop through level and create them
           for (let i = 0; i < levelTags.length; i++) {
             let nodes = { 'label': 'level', 'type': 'level', 'id': levelTags[i].id, 'children': [], 'expandedIcon': 'fa-folder-open', 'collapsedIcon': 'fa-folder', 'draggable': false };
-            let unitTags = packageReference[0].getElementsByTagName('level')[i].getElementsByTagName('unit');
+            let levelReference = packageReference[0].getElementsByTagName('level')
+            let unitTags = levelReference[i].getElementsByTagName('unit');
+
+            // loop through units and create them
             for (let j = 0; j < unitTags.length; j++) {
               let unit = { 'label': 'unit', 'type': 'unit', 'id': unitTags[j].id, 'children': [], 'expandedIcon': 'fa-folder-open-o', 'collapsedIcon': 'fa-folder-o' };
-              let activityTags = packageReference[0].getElementsByTagName('level')[i].getElementsByTagName('unit')[j].getElementsByTagName('activity');
+              let unitReference = levelReference[i].getElementsByTagName('unit');
+              let activityTags = unitReference[j].getElementsByTagName('activity');
+
+              // loop through activities and create them
               for (let k = 0; k < activityTags.length; k++) {
                 unit.children.push({ 'label': 'activity', 'type': 'activity', 'id': activityTags[k].id, 'icon': 'fa-file-code-o' });
               }
+
               nodes.children.push(unit);
             }
             this.data[0].children.push(nodes);

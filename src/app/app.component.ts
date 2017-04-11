@@ -67,17 +67,19 @@ export class AppComponent {
         direction = 1;
         break;
       case 'ArrowRight':
-        if (typeof this.selectedNode.children !== 'undefined') {
+        if (typeof this.selectedNode.children !== 'undefined' && typeof this.selectedNode.children[0].parent !== 'undefined') {
           this.selectedNode = this.selectedNode.children[0];
         }
-        return;
+        break;
       case 'ArrowLeft':
         if (typeof this.selectedNode.parent !== 'undefined') {
           this.selectedNode = this.selectedNode.parent;
         }
-        return;
+        break;
       case 'x':
         if (this.controlActive === true) {
+          // need to reset copiedNode when node is cut, otherwise the copiedNode will be in clipboard after pasting the cut node
+          this.copiedNode = undefined;
           this.cuttedNode = this.utilityService.cutNodeFromArray(this.selectedNode.parent.children, this.selectedNode);
           this.tempParentType = this.selectedNode.parent.type;
         }
@@ -86,20 +88,24 @@ export class AppComponent {
         if (this.controlActive === true) {
           this.copiedNode = this.selectedNode;
           this.tempParentType = this.selectedNode.parent.type;
-          console.log(this.copiedNode)
         }
         return;
       case 'v':
         if (this.controlActive === true) {
           let insertNode: Node;
-          if (this.cuttedNode) {
+          if (typeof this.cuttedNode !== 'undefined') {
             insertNode = this.cuttedNode;
-            this.cuttedNode = {} as Node;
-          } else {
+
+          } else if (typeof this.copiedNode !== 'undefined') {
             insertNode = this.copiedNode;
+          } else {
+            this.msgs = [];
+            this.msgs.push({ severity: 'info', summary: 'There is no node in your clipboard. Please try copying or cutting one again!' });
+            return;
           }
           if (this.tempParentType === this.selectedNode.type) {
-            this.utilityService.insertNodeInArray(this.selectedNode.children, this.copiedNode)
+            this.cuttedNode = undefined;
+            this.utilityService.insertNodeInArray(this.selectedNode.children, insertNode);
           } else {
             this.msgs = [];
             this.msgs.push({ severity: 'error', summary: 'Node type ' + this.selectedNode.type + ' can only be copied to node type ' + this.tempParentType });

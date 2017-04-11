@@ -13,12 +13,11 @@ import { DataStoreService } from './shared/data-store.service';
 // 3rd Party enables Treeview, Drag'n'Drop, Messages Button and Contextmenu
 import { TreeModule, TreeNode } from 'primeng/primeng';
 import { TreeDragDropService } from 'primeng/primeng';
-import { DragDropModule } from 'primeng/primeng';
 import { ContextMenuModule, MenuItem } from 'primeng/primeng';
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { MessagesModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/primeng';
-import {InputTextModule} from 'primeng/primeng';
+import { InputTextModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import {InputTextModule} from 'primeng/primeng';
     ContextMenuModule,
     MessagesModule,
     ButtonModule,
-    DragDropModule,
     InputTextModule
   ],
   providers: [

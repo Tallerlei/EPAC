@@ -3,20 +3,20 @@
   {{title}}
   </h1>
   <div *ngIf="this.dataStoreService.data[0].label">
-    <p-tree [value]="this.dataStoreService.data" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode" draggableNodes="true" droppableNodes="true">
+    <p-tree [value]="this.dataStoreService.data" [contextMenu]="cm" selectionMode="single" [(selection)]="selectedNode">
       <ng-template let-node pTemplate="database">
         <span data-type="database">{{node.label}}
         </span>
       </ng-template>
-      <ng-template let-node pTemplate="level" droppableScope="level">
+      <ng-template let-node pTemplate="level">
         <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
-      <ng-template let-node pTemplate="unit" draggableScope="level" droppableScope="unit">
+      <ng-template let-node pTemplate="unit">
         <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
-      <ng-template let-node pTemplate="activity" draggableScope="unit">
+      <ng-template let-node pTemplate="activity">
         <span (dblclick)="onDoubleClick($event)" data-type="level">{{node.label}}
         </span>
       </ng-template>
@@ -29,6 +29,4 @@
   <detail-view *ngIf="editableNode" [node]="editableNode"></detail-view>
   <br><br>
   <p-messages [value]="msgs"></p-messages>
-
-
 </div>
