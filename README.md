@@ -1,10 +1,10 @@
 # Readme and why @angular-cli
-Can be found in the 'src' folder. The following documentation is a standard text which comes from the angular-cli team.
+A readme file about the details can be found in the 'src' folder. The following documentation is a standard text which comes from the angular-cli team.
 I'm using @angular-cli because it is recommended by google developers, it is designed to go along with the angular styleguide and it brings all the tools that are needed for convenient development (Testing, Building, etc.).
 
 # EPAC
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+Make sure to npm install @angular-cli globally. A current nodeJS version is needed to build and develop this project.
 
 ## Development server
 

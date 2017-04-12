@@ -6,6 +6,9 @@ The xml file contains structural information that shall be displayed on screen.
 I included PrimeNG + font-awesome for multiple reasons e.g. configurable drag'n'drop, messages and context menu. It is very handy and can be configured and extended to your needs.
 Furthermore it comes with some styling I use to implement a good look and feel.
 
+# Load file
+In app.component's variable 'dataUrl' the file which shall be loaded can be specified. A local file is in this project for general testing.
+
 # Selecting and moving items
 User can move between items using arrow keys. Arrow-left selects parent node while arrow-right goes down to first child node.
 When holding control key while using arrow keys items can be moved.
