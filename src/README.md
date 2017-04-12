@@ -40,5 +40,5 @@ With a double-click on a node it can be opened in detail-view. In there is a but
 11. Allow user to move XML DOM items - CHECK
 12. Somehow allow the user to see item id - CHECK
 13. Level may not be moved - CHECK
-14. Units may be moved to other Level but may not be children of other units or even activities - In progress
-14. Activities may be moved to other units but may not be children of other activities or direct children of level - In progress
+14. Units may be moved to other Level but may not be children of other units or even activities - CHECK
+14. Activities may be moved to other units but may not be children of other activities or direct children of level - CHECK
